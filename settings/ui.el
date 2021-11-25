@@ -12,12 +12,13 @@
 ;; Disable tool- and menu- bars
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode t)
 
 ;; Highlight selection
 ;; (transient-mark-mode t)
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+;;(set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 123)
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -31,3 +32,5 @@
 ;; Override some modes which derive from the above
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(setq display-line-numbers 'relative)
