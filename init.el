@@ -95,7 +95,7 @@
    ;;:keymaps 'override
    :prefix "SPC"
    "s" 'save-buffer
-   "RET" 'bookmark-bmenu-list
+   "l" 'bookmark-bmenu-list
    "." 'dired
    "," 'counsel-switch-buffer))
 
