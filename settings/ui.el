@@ -20,8 +20,6 @@
 ;;(set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 123)
 
-(column-number-mode)
-(global-display-line-numbers-mode t)
 
 ;; Enable line numbers for some modes
 (dolist (mode '(text-mode-hook
@@ -33,4 +31,7 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(setq display-line-numbers 'relative)
+
+(global-display-line-numbers-mode t)
+(column-number-mode)
+(setq display-line-numbers-type 'relative)

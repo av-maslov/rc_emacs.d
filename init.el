@@ -2,6 +2,16 @@
 ;; https://github.com/daviwil/dotfiles/blob/master/Emacs.org
 ;; C-h v describe variable
 
+;; Ripgrep and FZF are called through Counsel/Swiper/ivy
+;; Rg (ripgrep)
+;; To insert symboal at a point: M-j
+;; https://oremacs.com/swiper/#key-bindings
+;; C-c k
+;; M-j
+
+;; FZF
+
+
 (setq-default fill-column 65)
 
 (setq use-dialog-box nil)
@@ -94,9 +104,14 @@
    :states 'normal
    ;;:keymaps 'override
    :prefix "SPC"
-   "s" 'save-buffer
+   "w" 'save-buffer
+   "k" 'kill-buffer
    "l" 'bookmark-bmenu-list
    "." 'dired
+   "f" 'counsel-fzf
+   "s" 'counsel-rg
+   "o" 'other-window
+   "5" 'my-run-poetry
    "," 'counsel-switch-buffer))
 
 ;; (general-create-definer my-leader-def
@@ -191,24 +206,10 @@
 
 
 
-
-
-;; Autocomplete
-(use-package auto-complete :init)
-(require 'auto-complete-config)
-(ac-config-default)
-(auto-complete-mode t)
-(global-auto-complete-mode t)
-
-
-
-
-
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
-
 
 
 
@@ -220,11 +221,8 @@
 
 
 
-
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
-
-
 
 
 
@@ -238,15 +236,13 @@
    '("234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(pyvenv rg company lsp-pyright ac-dabbrev auto-complete-config auto-complete lsp-python-ms python-mode dap-mode lsp-treemacs lsp-ivy helm-lsp lsp-ui lsp-mode evil-collection evil general doom-themes helpful counsel ivy-rich which-key rainbow-delimiters use-package swiper doom-modeline command-log-mode)))
+   '(smartparens magit pyvenv rg company lsp-pyright ac-dabbrev auto-complete-config auto-complete lsp-python-ms python-mode dap-mode lsp-treemacs lsp-ivy helm-lsp lsp-ui lsp-mode evil-collection evil general doom-themes helpful counsel ivy-rich which-key rainbow-delimiters use-package swiper doom-modeline command-log-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-
 
 
 
@@ -260,8 +256,6 @@
 
 
 
-
-
 (use-package ivy-rich
   :after ivy
   :init
@@ -270,6 +264,12 @@
 
 
 
+;; Autocomplete: Use "helpful" below?
+;; (use-package auto-complete :init)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+;; (auto-complete-mode t)
+;; (global-auto-complete-mode t)
 
 
 (use-package helpful
@@ -283,6 +283,8 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+
 
 ;; Disable evil until C-z hit
 (defun rune/evil-hook '()
@@ -370,3 +372,66 @@
 
 (use-package pyvenv
   :config (pyvenv-mode 1))
+
+;;
+;; My functions
+;;
+
+(defun my-run-python ()
+  (interactive)
+  (async-shell-command
+   (format "python3 %s" buffer-file-name)))
+
+(defun my-run-venv ()
+  (interactive)
+  (async-shell-command
+   (format "source %s && python3 %s"
+           (expand-file-name "venv/bin/activate")
+           buffer-file-name)))
+
+(defun my-run-poetry ()
+  (interactive)
+  (async-shell-command
+   (format "source %s && python %s"
+           "/home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8/bin/activate"
+           buffer-file-name)))
+
+;; /home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8
+
+(defun window-split-toggle ()
+  ;; https://emacs.stackexchange.com/questions/5371/how-to-change-emacs-windows-from-vertical-split-to-horizontal-split
+  "Toggle between horizontal and vertical split with two windows."
+  (interactive)
+  (if (> (length (window-list)) 2)
+      (error "Can't toggle with more than 2 windows!")
+    (let ((func (if (window-full-height-p)
+                    #'split-window-vertically
+                  #'split-window-horizontally)))
+      (delete-other-windows)
+      (funcall func)
+      (save-selected-window
+        (other-window 1)
+        (switch-to-buffer (other-buffer))))))
+
+;;
+;; End my functions
+;;
+
+;; (global-set-key (kbd "<SPC-5>") 'my-run-poetry)
+;; (map! :leader "3" #'my-run-python)
+;; (map! :leader "5" #'my-run-poetry)
+;; (map! :leader "4" #'my-run-env)
+(setq async-shell-command-display-buffer nil)
+
+
+
+(add-to-list 'load-path (get-full-path "plugins/neotree"))
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+
+
+(require 'smartparens-config)
+(add-hook 'python-mode-hook #'smartparens-mode)
