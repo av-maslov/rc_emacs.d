@@ -51,6 +51,7 @@
 
 (load "ui.el")
 
+
 (setq-default indent-tabs-mode nil)
 ;;(load-theme 'tango-dark)
 
@@ -435,3 +436,5 @@
 
 (require 'smartparens-config)
 (add-hook 'python-mode-hook #'smartparens-mode)
+
+(load "scala.el")
