@@ -12,6 +12,7 @@
 ;; FZF
 (setq auto-revert-mode t)
 (setq-default fill-column 65)
+(setq-default tab-width 4)
 
 (setq use-dialog-box nil)
 (setq inhibit-startup-message t)
