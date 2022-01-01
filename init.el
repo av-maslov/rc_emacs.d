@@ -259,7 +259,7 @@
    '("246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "fe2539ccf78f28c519541e37dc77115c6c7c2efcec18b970b16e4a4d2cd9891d" "47db50ff66e35d3a440485357fb6acb767c100e135ccdf459060407f8baea7b2" "d268b67e0935b9ebc427cad88ded41e875abfcc27abd409726a92e55459e0d01" "613aedadd3b9e2554f39afe760708fc3285bf594f6447822dd29f947f0775d6c" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "23c806e34594a583ea5bbf5adf9a964afe4f28b4467d28777bcba0d35aa0872e" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "a9a67b318b7417adbedaab02f05fa679973e9718d9d26075c6235b1f0db703c8" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "cf922a7a5c514fad79c483048257c5d8f242b21987af0db813d3f0b138dfaf53" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "97db542a8a1731ef44b60bc97406c1eb7ed4528b0d7296997cbb53969df852d6" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "cbdf8c2e1b2b5c15b34ddb5063f1b21514c7169ff20e081d39cf57ffee89bc1e" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(projectile smartparens magit pyvenv rg company lsp-pyright ac-dabbrev auto-complete-config auto-complete lsp-python-ms python-mode dap-mode lsp-treemacs lsp-ivy helm-lsp lsp-ui lsp-mode evil-collection evil general doom-themes helpful counsel ivy-rich which-key rainbow-delimiters use-package swiper doom-modeline command-log-mode)))
+   '(project-local-variables projectile smartparens magit pyvenv rg company lsp-pyright ac-dabbrev auto-complete-config auto-complete lsp-python-ms python-mode dap-mode lsp-treemacs lsp-ivy helm-lsp lsp-ui lsp-mode evil-collection evil general doom-themes helpful counsel ivy-rich which-key rainbow-delimiters use-package swiper doom-modeline command-log-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -419,6 +419,7 @@
            "/home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8/bin/activate"
            buffer-file-name)))
 
+
 (defun my-run-make ()
   (interactive)
   (async-shell-command
@@ -427,6 +428,21 @@
            "/home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8/bin/activate"
            )))
 
+
+;; Compile using Makefile
+;; https://www.emacswiki.org/emacs/UsingMakefileFromParentDirectory
+;;
+(defun get-above-makefile ()
+  (let ((dir (locate-dominating-file "." "Makefile")))
+    (when dir
+      (concat dir "Makefile"))))
+;; bind compiling with get-above-makefile to f5
+(global-set-key [f5]
+                (lambda ()
+                  (interactive)
+                  (compile (format "make -f %s" (get-above-makefile)))))
+;;
+;; End UsingMakefileFromParentDirectory
 
 ;; /home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8
 
