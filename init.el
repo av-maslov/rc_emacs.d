@@ -420,28 +420,33 @@
            buffer-file-name)))
 
 
+
+
+;; Compile using Makefile
+;;
+;; https://www.emacswiki.org/emacs/UsingMakefileFromParentDirectory
+(defun get-above-makefile ()
+  (let ((dir (locate-dominating-file "." "Makefile")))
+    (when dir
+      (concat dir "Makefile"))))
+
+(global-set-key [f5]
+                (lambda ()
+                  (interactive)
+                  (compile (format "make -f %s" (get-above-makefile)))))
+
 (defun my-run-make ()
+  (interactive)
+  (compile (format "make -f %s" (get-above-makefile))))
+
+(defun my-run-make-old ()
   (interactive)
   (async-shell-command
    (format "cd %s && source %s && make"
            "/home/al/1/thesis_src/"
            "/home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8/bin/activate"
            )))
-
-
-;; Compile using Makefile
-;; https://www.emacswiki.org/emacs/UsingMakefileFromParentDirectory
-;;
-(defun get-above-makefile ()
-  (let ((dir (locate-dominating-file "." "Makefile")))
-    (when dir
-      (concat dir "Makefile"))))
-;; bind compiling with get-above-makefile to f5
-(global-set-key [f5]
-                (lambda ()
-                  (interactive)
-                  (compile (format "make -f %s" (get-above-makefile)))))
-;;
+  
 ;; End UsingMakefileFromParentDirectory
 
 ;; /home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8
