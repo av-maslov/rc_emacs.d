@@ -117,7 +117,7 @@
            (call-interactively #'counsel-fzf))) ;; https://github.com/abo-abo/swiper/pull/1281
    "r" 'counsel-rg
    "o" 'other-window
-   "5" 'my-run-poetry
+   "5" 'my-run-make
    "," 'counsel-switch-buffer))
 
 ;; (general-create-definer my-leader-def
@@ -418,6 +418,15 @@
    (format "source %s && python %s"
            "/home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8/bin/activate"
            buffer-file-name)))
+
+(defun my-run-make ()
+  (interactive)
+  (async-shell-command
+   (format "cd %s && source %s && make"
+           "/home/al/1/thesis_src/"
+           "/home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8/bin/activate"
+           )))
+
 
 ;; /home/al/.cache/pypoetry/virtualenvs/src-qt1p8_0V-py3.8
 
