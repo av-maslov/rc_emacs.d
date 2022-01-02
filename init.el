@@ -393,6 +393,13 @@
 ;; Counsel:  (require 'rg-isearch)
 ;; Counsel:  (define-key isearch-mode-map "\M-sr" 'rg-isearch-menu)
 
+;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.git\\'")
+  (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\venv\\'"))
+(setq lsp-file-watch-threshold 3000)
+
 (use-package pyvenv
   :config (pyvenv-mode 1))
 
