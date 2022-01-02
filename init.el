@@ -368,30 +368,8 @@
 
 ;; optionally if you want to use debugger
 (use-package dap-mode)
-;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-;; Counsel:  
-;; Counsel:  (use-package company)
-;; Counsel:  (add-hook 'after-init-hook 'global-company-mode)
-;; Counsel:  
-;; Counsel:  (use-package rg)
-;; Counsel:  (require 'rg)
-;; Counsel:  (rg-enable-default-bindings)
-;; Counsel:  (defun rg-autoload-keymap ()
-;; Counsel:    (interactive)
-;; Counsel:    (if (not (require 'rg nil t))
-;; Counsel:        (user-error (format "Cannot load rg"))
-;; Counsel:      (let ((key-vec (this-command-keys-vector)))
-;; Counsel:        (global-set-key key-vec rg-global-map)
-;; Counsel:        (setq unread-command-events
-;; Counsel:          (mapcar (lambda (ev) (cons t ev))
-;; Counsel:                  (listify-key-sequence key-vec))))))
-;; Counsel:  
-;; Counsel:  (global-set-key (kbd "C-c s") #'rg-autoload-keymap)
-;; Counsel:  (with-eval-after-load 'rg
-;; Counsel:     ;; Your settings goes here.
-;; Counsel:  )
-;; Counsel:  (require 'rg-isearch)
-;; Counsel:  (define-key isearch-mode-map "\M-sr" 'rg-isearch-menu)
+
+
 
 ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
 (with-eval-after-load 'lsp-mode
@@ -403,10 +381,12 @@
 (use-package pyvenv
   :config (pyvenv-mode 1))
 
+
+
+
 ;;
 ;; My functions
 ;;
-
 (defun my-run-python ()
   (interactive)
   (async-shell-command
