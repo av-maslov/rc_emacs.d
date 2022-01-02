@@ -132,7 +132,8 @@
 (use-package command-log-mode)
 
 
-
+;; Compilation output
+(setq compilation-scroll-output t)
 
 
 ;; (add-hook 'python-mode-hook
