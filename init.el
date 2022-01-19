@@ -105,6 +105,7 @@
    :states 'normal
    ;;:keymaps 'override
    :prefix "SPC"
+   ;;"1": 'delete-other-windows
    "w" 'save-buffer
    "k" 'kill-buffer
    "l" 'bookmark-bmenu-list
@@ -266,7 +267,7 @@
  '(debug-on-error t)
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(project-local-variables projectile smartparens magit pyvenv rg company lsp-pyright ac-dabbrev auto-complete-config auto-complete lsp-python-ms python-mode dap-mode lsp-treemacs lsp-ivy helm-lsp lsp-ui lsp-mode evil-collection evil general doom-themes helpful counsel ivy-rich which-key rainbow-delimiters use-package swiper doom-modeline command-log-mode)))
+   '(clang-format project-local-variables projectile smartparens magit pyvenv rg company lsp-pyright ac-dabbrev auto-complete-config auto-complete lsp-python-ms python-mode dap-mode lsp-treemacs lsp-ivy helm-lsp lsp-ui lsp-mode evil-collection evil general doom-themes helpful counsel ivy-rich which-key rainbow-delimiters use-package swiper doom-modeline command-log-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -545,3 +546,15 @@
   (info-initialize)
   (add-to-list 'Info-directory-list
                "~/.emacs.d/site-lisp/magit/Documentation/"))
+
+
+
+;; clang-format
+;; https://clang.llvm.org/docs/ClangFormat.html
+(require 'clang-format)
+;; (load "<path-to-clang>/tools/clang-format/clang-format.el")
+(global-set-key [C-M-tab] 'clang-format-region)
+(setq-default c-basic-offset 4)
+
+(electric-pair-mode 1)
+
